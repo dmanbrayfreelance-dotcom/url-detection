@@ -37,6 +37,10 @@ frontend/build/
 .npm
 .eslintcache
 
+# Chrome Extension Keys
+*.pem
+*.crx
+
 # Logs & Temp
 *.log
 .DS_Store

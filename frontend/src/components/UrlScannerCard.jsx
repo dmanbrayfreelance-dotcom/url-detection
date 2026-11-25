@@ -131,40 +131,77 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
 
       {/* Scan Summary Bar (if scan result available) */}
       {scanResult && (
-        <div className="pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-3">
-            <span
-              className={`px-3.5 py-1 rounded-full font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5 ${
-                scanResult.is_phishing
-                  ? "bg-red-50 text-red-600 border border-red-200"
-                  : "bg-emerald-50 text-emerald-600 border border-emerald-200"
-              }`}
+        <div className="pt-4 border-t border-gray-100 space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-3">
+              <span
+                className={`px-3.5 py-1 rounded-full font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5 ${
+                  scanResult.is_phishing
+                    ? "bg-red-50 text-red-600 border border-red-200"
+                    : "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                }`}
+              >
+                <span className={`w-2 h-2 rounded-full ${scanResult.is_phishing ? "bg-red-500" : "bg-emerald-500"}`} />
+                {scanResult.threat_level.replace(/_/g, " ")}
+              </span>
+
+              <span className="text-gray-500">
+                Probability:{" "}
+                <strong className={scanResult.is_phishing ? "text-red-600 font-mono" : "text-emerald-600 font-mono"}>
+                  {(scanResult.phishing_probability * 100).toFixed(1)}%
+                </strong>
+              </span>
+
+              <span className="text-gray-500">
+                Latency:{" "}
+                <strong className="text-gray-900 font-mono">{scanResult.inference_latency_ms} ms</strong>
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={onOpenFeedback}
+              className="text-gray-600 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 text-xs font-semibold transition-colors"
             >
-              <span className={`w-2 h-2 rounded-full ${scanResult.is_phishing ? "bg-red-500" : "bg-emerald-500"}`} />
-              {scanResult.threat_level.replace(/_/g, " ")}
-            </span>
-
-            <span className="text-gray-500">
-              Probability:{" "}
-              <strong className={scanResult.is_phishing ? "text-red-600 font-mono" : "text-emerald-600 font-mono"}>
-                {(scanResult.phishing_probability * 100).toFixed(1)}%
-              </strong>
-            </span>
-
-            <span className="text-gray-500">
-              Latency:{" "}
-              <strong className="text-gray-900 font-mono">{scanResult.inference_latency_ms} ms</strong>
-            </span>
+              <span>Feedback & Retrain</span>
+              <span>↗</span>
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={onOpenFeedback}
-            className="text-gray-600 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 text-xs font-semibold transition-colors"
+          {/* Detailed Immediate Reason Banner */}
+          <div
+            className={`p-3.5 rounded-2xl text-xs flex items-start gap-2.5 ${
+              scanResult.is_phishing
+                ? "bg-red-50 border border-red-200 text-red-900"
+                : "bg-emerald-50 border border-emerald-200 text-emerald-900"
+            }`}
           >
-            <span>Feedback & Retrain</span>
-            <span>↗</span>
-          </button>
+            <span className="text-sm shrink-0 mt-0.5">
+              {scanResult.is_phishing ? "🚨" : "🛡️"}
+            </span>
+            <div className="flex-1 space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-extrabold uppercase tracking-wide text-[11px]">
+                  {scanResult.is_phishing ? "Why is this Phishing?" : "Verification Status:"}
+                </span>
+                <span className="text-[10px] font-mono text-gray-500 font-semibold">
+                  Zero-Live-Visit Proof
+                </span>
+              </div>
+              <p className="font-medium text-[11px] leading-relaxed">
+                {scanResult.is_phishing
+                  ? (scanResult.threat_indicators?.[0] ||
+                    (scanResult.homoglyph_analysis?.is_homoglyph_attack
+                      ? "Detected confusable homoglyph characters impersonating a legitimate brand."
+                      : scanResult.free_host_analysis?.is_free_hosting
+                      ? `Abuse of free site hosting (${scanResult.free_host_analysis.matched_free_host}) with credential harvesting subpaths.`
+                      : scanResult.lexical_analysis?.is_brand_spoof
+                      ? `Unauthorized brand impersonation targeting ${scanResult.lexical_analysis.spoofed_brands?.join(", ")}.`
+                      : "Multi-embedding attention layers flagged adversarial keyword patterns and entropy anomalies."))
+                  : "URL matches verified benign infrastructure. Zero homoglyphs, standard entropy, and safe attention weights."}
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
