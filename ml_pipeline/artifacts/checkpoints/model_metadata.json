@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "paper_reference": "IEEE TIFS 2025: TrackPhish",
+  "timestamp": "2026-11-25 14:49:28",
+  "training_duration_seconds": 4.2,
+  "hyperparameters": {
+    "max_sequence_length": 128,
+    "vocab_size": 20000,
+    "subword_min_n": 3,
+    "subword_max_n": 6,
+    "word2vec_dim": 100,
+    "fasttext_dim": 100,
+    "glove_dim": 100,
+    "transformer_dim": 128,
+    "total_embedding_dim": 428,
+    "fusion_hidden_dim": 128,
+    "attention_heads": 4,
+    "scaled_dot_product": true,
+    "cnn_filters_1": 128,
+    "cnn_filters_2": 128,
+    "kernel_size": 3,
+    "dense_dim_1": 256,
+    "dropout_rate": 0.2,
+    "dense_dim_2": 128,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "epochs": 10,
+    "temperature": 3.0,
+    "alpha_distillation": 0.6,
+    "student_dim": 96,
+    "student_filters": 64,
+    "student_kernel": 3
+  },
+  "dataset_samples": 32,
+  "teacher_metrics": {
+    "accuracy": 0.9688,
+    "precision": 1.0,
+    "recall": 0.95,
+    "f1_score": 0.9744,
+    "false_positive_rate": 0.0,
+    "auc_roc": 1.0
+  },
+  "teacher_performance": {
+    "avg_latency_ms": 121.33,
+    "p95_latency_ms": 155.97,
+    "samples_per_second": 8.2
+  },
+  "student_metrics": {
+    "accuracy": 0.9688,
+    "precision": 1.0,
+    "recall": 0.95,
+    "f1_score": 0.9744,
+    "false_positive_rate": 0.0,
+    "auc_roc": 0.9833
+  },
+  "student_performance": {
+    "avg_latency_ms": 9.55,
+    "p95_latency_ms": 13.02,
+    "samples_per_second": 104.8
+  },
+  "onnx_artifact": "trackphish_student.onnx",
+  "checkpoint_artifact": "trackphish_teacher.pt"
+}

@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: trackphish-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_USERNAME=rakeyr213_db_user
+      - MONGODB_PASSWORD=PZ8WlXLGDL1eYm47
+      - MONGODB_URI=mongodb+srv://rakeyr213_db_user:PZ8WlXLGDL1eYm47@cluster0.jwoohac.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - MONGODB_DB_NAME=trackphish_enhanced
+      - USE_IN_MEMORY_FALLBACK=true
+      - DEFAULT_INFERENCE_MODE=teacher_attention
+    volumes:
+      - ./ml_pipeline/artifacts:/app/ml_pipeline/artifacts
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: trackphish-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
