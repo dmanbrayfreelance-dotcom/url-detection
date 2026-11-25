@@ -29,70 +29,72 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
   };
 
   return (
-    <div className="bg-[#111827] rounded-xl border border-gray-800 p-6 shadow-xl relative overflow-hidden">
+    <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[28px] p-6 shadow-sm space-y-5">
       {/* Top Banner & Mode Switch */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100">
         <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <span className="p-1.5 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
+          <h2 className="text-xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+            <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs">
+              🔍
             </span>
             Zero-Live-Visit URL Inspector
           </h2>
           <p className="text-xs text-gray-400 mt-1">
-            Pure lexical, multi-embedding, and attention analysis without querying suspicious live sites or external DNS.
+            Lexical multi-embedding attention analysis without visiting suspicious live sites or querying external DNS.
           </p>
         </div>
 
-        {/* Dual Mode Switcher */}
-        <div className="flex items-center gap-2 bg-gray-900/90 p-1.5 rounded-lg border border-gray-800 self-start md:self-auto">
+        {/* Dual Mode Switcher matching reference pill design */}
+        <div className="flex items-center gap-1.5 bg-gray-100 p-1.5 rounded-full border border-gray-200 self-start md:self-auto">
           <button
             type="button"
             onClick={() => setInferenceMode("teacher_attention")}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all ${
               inferenceMode === "teacher_attention"
-                ? "bg-sky-500 text-white shadow-md shadow-sky-500/25"
-                : "text-gray-400 hover:text-gray-200"
+                ? "bg-black text-white shadow-sm"
+                : "text-gray-500 hover:text-gray-900"
             }`}
           >
             <span>Teacher Attention</span>
-            <span className="text-[10px] bg-sky-950/60 text-sky-200 px-1.5 py-0.2 rounded border border-sky-700/40">
+            <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
+              inferenceMode === "teacher_attention" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
+            }`}>
               Explainable
             </span>
           </button>
           <button
             type="button"
             onClick={() => setInferenceMode("onnx_student")}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all ${
               inferenceMode === "onnx_student"
-                ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/25"
-                : "text-gray-400 hover:text-gray-200"
+                ? "bg-black text-white shadow-sm"
+                : "text-gray-500 hover:text-gray-900"
             }`}
           >
             <span>ONNX Student</span>
-            <span className="text-[10px] bg-emerald-950/60 text-emerald-200 px-1.5 py-0.2 rounded border border-emerald-700/40">
+            <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
+              inferenceMode === "onnx_student" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
+            }`}>
               &lt;10ms
             </span>
           </button>
         </div>
       </div>
 
-      {/* URL Input Form */}
-      <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+      {/* URL Input Form with modern rounded-full pill input */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative flex items-center">
           <input
             type="text"
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
-            placeholder="Enter suspicious or legitimate URL to scan (e.g. https://pаypal.com/signin)..."
-            className="w-full bg-[#0b1120] text-gray-100 placeholder-gray-500 text-sm font-mono px-4 py-3.5 pr-28 rounded-lg border border-gray-700/80 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all"
+            placeholder="Enter URL to inspect (e.g. https://pаypal.com/signin)..."
+            className="w-full bg-white text-gray-900 placeholder-gray-400 text-xs font-mono px-5 py-3.5 pr-32 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-all shadow-sm"
           />
           <button
             type="submit"
             disabled={loading || !urlInput.trim()}
-            className="absolute right-1.5 px-5 py-2.5 rounded-md bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-sky-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+            className="absolute right-1.5 px-6 py-2 rounded-full bg-black hover:bg-gray-800 text-white text-xs font-bold shadow-sm disabled:opacity-50 transition-all flex items-center gap-2"
           >
             {loading ? (
               <>
@@ -111,15 +113,15 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
           </button>
         </div>
 
-        {/* Quick Presets */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
-          <span className="text-xs text-gray-500 font-medium mr-1">Presets:</span>
+        {/* Quick Presets Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <span className="text-xs text-gray-400 font-semibold mr-1">Presets:</span>
           {SAMPLE_PRESETS.map((p, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => handlePresetSelect(p.url)}
-              className="text-[11px] px-2.5 py-1 rounded bg-gray-800/80 hover:bg-gray-700/80 text-gray-300 border border-gray-700/50 hover:border-sky-500/50 transition-colors"
+              className="text-[11px] px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition-colors"
             >
               {p.label}
             </button>
@@ -129,41 +131,39 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
 
       {/* Scan Summary Bar (if scan result available) */}
       {scanResult && (
-        <div className="mt-5 pt-4 border-t border-gray-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
             <span
-              className={`px-3 py-1 rounded-full font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5 ${
+              className={`px-3.5 py-1 rounded-full font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5 ${
                 scanResult.is_phishing
-                  ? "bg-red-500/20 text-red-400 border border-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.25)]"
-                  : "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
+                  ? "bg-red-50 text-red-600 border border-red-200"
+                  : "bg-emerald-50 text-emerald-600 border border-emerald-200"
               }`}
             >
               <span className={`w-2 h-2 rounded-full ${scanResult.is_phishing ? "bg-red-500" : "bg-emerald-500"}`} />
               {scanResult.threat_level.replace(/_/g, " ")}
             </span>
 
-            <span className="text-gray-400">
+            <span className="text-gray-500">
               Probability:{" "}
-              <strong className={scanResult.is_phishing ? "text-red-400 font-mono" : "text-emerald-400 font-mono"}>
+              <strong className={scanResult.is_phishing ? "text-red-600 font-mono" : "text-emerald-600 font-mono"}>
                 {(scanResult.phishing_probability * 100).toFixed(1)}%
               </strong>
             </span>
 
-            <span className="text-gray-400">
+            <span className="text-gray-500">
               Latency:{" "}
-              <strong className="text-sky-400 font-mono">{scanResult.inference_latency_ms} ms</strong>
+              <strong className="text-gray-900 font-mono">{scanResult.inference_latency_ms} ms</strong>
             </span>
           </div>
 
           <button
             type="button"
             onClick={onOpenFeedback}
-            className="text-gray-400 hover:text-sky-300 flex items-center gap-1.5 px-3 py-1 rounded bg-gray-800 border border-gray-700 hover:border-sky-500/40 transition-colors"
+            className="text-gray-600 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 text-xs font-semibold transition-colors"
           >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            <span>Analyst Feedback</span>
+            <span>Feedback & Retrain</span>
+            <span>↗</span>
           </button>
         </div>
       )}
