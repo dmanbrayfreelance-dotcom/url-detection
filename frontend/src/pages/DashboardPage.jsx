@@ -79,89 +79,64 @@ export default function DashboardPage({ onNavigate, onQuickScan }) {
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 pb-2">
         {/* Quick Stats Header */}
         <div className="shrink-0">
-          <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
-            Quick Stats
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <span className="text-[10px] font-black tracking-wider uppercase text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
+              IEEE TIFS 2025 Baseline
+            </span>
+          </div>
+          <h2 className="text-xl font-extrabold text-gray-900 tracking-tight mt-1">
+            System Telemetry & Benchmarks
           </h2>
           <p className="text-xs text-gray-400 mt-0.5">
-            Your threat intelligence for live session.
+            Zero-live-visit multi-embedding URL security intelligence.
           </p>
         </div>
 
-        {/* 6 Vertical White Pill Cards matching Jobgio reference */}
+        {/* 6 Vertical White Pill Cards strictly aligned with IEEE Abstract & Benchmarks */}
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5 flex-1 max-w-4xl">
           
-          {/* Card 1: Total Users / Total Scans */}
+          {/* Card 1: IEEE Stratified Dataset Size */}
           <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
             <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
             <div>
               <span className="text-lg font-black text-gray-900 block tracking-tight">
-                {analytics?.total_scans ? `${analytics.total_scans * 10}K` : "500K"}
+                121,966
               </span>
               <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                Total Scans
+                IEEE Dataset URLs
+              </span>
+              <span className="text-[9px] text-gray-400 block mt-0.5 font-mono">
+                84.9K legit / 37K phish
               </span>
             </div>
           </div>
 
-          {/* Card 2: Total Companies / Domains Tracked */}
+          {/* Card 2: Paper Accuracy & Benchmark D1 */}
           <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
+            <div className="w-9 h-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div>
-              <span className="text-lg font-black text-gray-900 block tracking-tight">
-                1.2K
+              <span className="text-lg font-black text-emerald-700 block tracking-tight">
+                95.41%
               </span>
               <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                Target Brands
+                IEEE Accuracy
+              </span>
+              <span className="text-[9px] text-emerald-600 font-semibold block mt-0.5">
+                98.55% on D1
               </span>
             </div>
           </div>
 
-          {/* Card 3: Active Jobs Posted / Phishing Caught (Highlighted with little arrow button matching reference) */}
-          <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow relative">
-            <div className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center shadow-sm">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <span className="text-lg font-black text-gray-900 block tracking-tight">
-                {analytics?.phishing_detected ? `${analytics.phishing_detected * 100}` : "3.5K"}
-              </span>
-              <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                Threats Intercepted
-              </span>
-            </div>
-            <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-600 absolute -bottom-2.5">
-              ↗
-            </div>
-          </div>
-
-          {/* Card 4: Total Applications / Model Accuracy */}
-          <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
-            <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <span className="text-lg font-black text-gray-900 block tracking-tight">
-                96.9%
-              </span>
-              <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                TIFS Accuracy
-              </span>
-            </div>
-          </div>
-
-          {/* Card 5: Pending Jobs / Latency Speed */}
+          {/* Card 3: Low False Positive Rate (FPR) */}
           <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
             <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,27 +145,76 @@ export default function DashboardPage({ onNavigate, onQuickScan }) {
             </div>
             <div>
               <span className="text-lg font-black text-gray-900 block tracking-tight">
-                &lt; 9.5ms
+                1.44%
               </span>
               <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                ONNX Speed
+                Paper FPR Rate
+              </span>
+              <span className="text-[9px] text-gray-400 block mt-0.5">
+                Ultra-low false alarms
               </span>
             </div>
           </div>
 
-          {/* Card 6: Reported Jobs / Zero False Positives */}
+          {/* Card 4: Recall & F1-Score */}
           <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
             <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-700">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
             <div>
               <span className="text-lg font-black text-gray-900 block tracking-tight">
-                0.0%
+                94.88%
               </span>
               <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
-                False Positives
+                Recall (TPR)
+              </span>
+              <span className="text-[9px] text-gray-400 block mt-0.5 font-mono">
+                93.10% F1-Score
+              </span>
+            </div>
+          </div>
+
+          {/* Card 5: ONNX Distilled Edge Latency */}
+          <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow relative">
+            <div className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center shadow-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div>
+              <span className="text-lg font-black text-gray-900 block tracking-tight">
+                &lt; 9.5ms
+              </span>
+              <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
+                ONNX Student Latency
+              </span>
+              <span className="text-[9px] text-emerald-600 font-bold block mt-0.5">
+                vs 550ms Teacher
+              </span>
+            </div>
+            <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-600 absolute -bottom-2.5">
+              ⚡
+            </div>
+          </div>
+
+          {/* Card 6: Zero-Live-Visit Mode */}
+          <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[24px] p-4 flex flex-col items-center justify-between text-center min-h-[145px] shadow-sm hover:shadow-md transition-shadow">
+            <div className="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <div>
+              <span className="text-lg font-black text-blue-700 block tracking-tight">
+                0-Visit
+              </span>
+              <span className="text-[10px] text-gray-400 font-medium block leading-tight mt-0.5">
+                Zero-Live-Visit
+              </span>
+              <span className="text-[9px] text-gray-400 block mt-0.5">
+                No WHOIS / No DNS
               </span>
             </div>
           </div>

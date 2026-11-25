@@ -1,20 +1,72 @@
 import React, { useState } from "react";
 
-const SAMPLE_PRESETS = [
-  { label: "Homoglyph Attack (Cyrillic a)", url: "https://pаypal.com/signin-security-auth" },
-  { label: "Free Hosting Brand Abuse", url: "https://paypal-verification.sites.google.com/view/secure-auth-login" },
-  { label: "Brand Spoofing (Subdomain)", url: "https://chase-online.banking-secure-auth.xyz/signin?flow=92841" },
-  { label: "IDN Punycode Attack", url: "https://www.xn--pple-43d.com/login" },
-  { label: "Raw IP Host Obfuscation", url: "http://192.168.1.105:8080/paypal-login-portal/index.html" },
-  { label: "Userinfo @ Redirection", url: "http://google.com@phishing-harvest-server.org/auth/login" },
-  { label: "Legitimate Google", url: "https://www.google.com/" },
-  { label: "Legitimate Amazon", url: "https://www.amazon.com/dp/B08N5WRWNW" },
-  { label: "Legitimate GitHub", url: "https://github.com/torvalds/linux" }
+const CATEGORIZED_PRESETS = [
+  {
+    category: "Clean",
+    label: "Google Official",
+    url: "https://www.google.com/"
+  },
+  {
+    category: "Clean",
+    label: "Wikipedia Machine Learning",
+    url: "https://en.wikipedia.org/wiki/Machine_learning"
+  },
+  {
+    category: "Clean",
+    label: "GitHub Linux Kernel",
+    url: "https://github.com/torvalds/linux"
+  },
+  {
+    category: "Homoglyph",
+    label: "Cyrillic 'а' PayPal Spoof",
+    url: "https://pаypal.com/signin-security-auth"
+  },
+  {
+    category: "Homoglyph",
+    label: "IDN Punycode Apple Lookalike",
+    url: "https://www.xn--pple-43d.com/login"
+  },
+  {
+    category: "Free-Host",
+    label: "Google Sites Trojan Login",
+    url: "https://paypal-verification.sites.google.com/view/secure-auth-login"
+  },
+  {
+    category: "Free-Host",
+    label: "WixSite Apple-ID Harvester",
+    url: "https://apple-id-verify.wixsite.com/cloud-auth"
+  },
+  {
+    category: "Shortener",
+    label: "Bitly Masked Chase Login",
+    url: "https://bit.ly/3xXyZ1_chase_urgent_login"
+  },
+  {
+    category: "Shortener",
+    label: "TinyURL Banking Redirection",
+    url: "https://tinyurl.com/secure-banking-verification-flow"
+  },
+  {
+    category: "Obfuscated",
+    label: "Raw IP Host Gateway",
+    url: "http://192.168.1.105:8080/paypal-login-portal/index.html"
+  },
+  {
+    category: "Obfuscated",
+    label: "Userinfo '@' Credential Redirection",
+    url: "http://google.com@phishing-harvest-server.org/auth/login"
+  },
+  {
+    category: "Obfuscated",
+    label: "High-Entropy Subdomain DGA",
+    url: "https://chase-online.banking-secure-auth.xyz/signin?flow=92841"
+  }
 ];
 
 export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeedback }) {
   const [urlInput, setUrlInput] = useState("https://pаypal.com/signin-security-auth");
   const [inferenceMode, setInferenceMode] = useState("teacher_attention");
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,19 +80,38 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
     onScan(presetUrl, inferenceMode);
   };
 
+  const handleToggleModeAndRescan = () => {
+    const nextMode = inferenceMode === "teacher_attention" ? "onnx_student" : "teacher_attention";
+    setInferenceMode(nextMode);
+    if (urlInput.trim()) {
+      onScan(urlInput.trim(), nextMode);
+    }
+  };
+
+  const categories = ["All", "Clean", "Homoglyph", "Free-Host", "Shortener", "Obfuscated"];
+
+  const filteredPresets = activeCategory === "All"
+    ? CATEGORIZED_PRESETS
+    : CATEGORIZED_PRESETS.filter((p) => p.category === activeCategory);
+
   return (
     <div className="bg-[#fcfdfd] border border-gray-100/90 rounded-[28px] p-6 shadow-sm space-y-5">
       {/* Top Banner & Mode Switch */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100">
         <div>
-          <h2 className="text-xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-            <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs shadow-xs">
               🔍
             </span>
-            Zero-Live-Visit URL Inspector
-          </h2>
+            <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
+              Zero-Live-Visit URL Inspector
+            </h2>
+            <span className="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">
+              IEEE TIFS 2025
+            </span>
+          </div>
           <p className="text-xs text-gray-400 mt-1">
-            Lexical multi-embedding attention analysis without visiting suspicious live sites or querying external DNS.
+            Lexical multi-embedding attention analysis without visiting suspicious live sites or querying external DNS/WHOIS.
           </p>
         </div>
 
@@ -59,7 +130,7 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
             <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
               inferenceMode === "teacher_attention" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
             }`}>
-              Explainable
+              Full Explainable
             </span>
           </button>
           <button
@@ -75,7 +146,7 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
             <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${
               inferenceMode === "onnx_student" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-600"
             }`}>
-              &lt;10ms
+              &lt;9.5ms Edge
             </span>
           </button>
         </div>
@@ -113,19 +184,41 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
           </button>
         </div>
 
-        {/* Quick Presets Pills */}
-        <div className="flex flex-wrap items-center gap-2 pt-1">
-          <span className="text-xs text-gray-400 font-semibold mr-1">Presets:</span>
-          {SAMPLE_PRESETS.map((p, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => handlePresetSelect(p.url)}
-              className="text-[11px] px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition-colors"
-            >
-              {p.label}
-            </button>
-          ))}
+        {/* Quick Presets by Category */}
+        <div className="space-y-2 pt-1">
+          <div className="flex items-center justify-between text-xs text-gray-400">
+            <span className="font-semibold text-gray-500">Adversarial & Attack Simulator Presets:</span>
+            <div className="flex items-center gap-1 text-[11px]">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-2.5 py-0.5 rounded-full font-bold transition-colors ${
+                    activeCategory === cat
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {filteredPresets.map((p, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => handlePresetSelect(p.url)}
+                className="text-[11px] px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition-colors flex items-center gap-1.5 border border-gray-200/80"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
+                <span>{p.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </form>
 
@@ -133,7 +226,7 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
       {scanResult && (
         <div className="pt-4 border-t border-gray-100 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <span
                 className={`px-3.5 py-1 rounded-full font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5 ${
                   scanResult.is_phishing
@@ -156,16 +249,37 @@ export default function UrlScannerCard({ onScan, loading, scanResult, onOpenFeed
                 Latency:{" "}
                 <strong className="text-gray-900 font-mono">{scanResult.inference_latency_ms} ms</strong>
               </span>
+
+              <span className="text-gray-500">
+                Mode:{" "}
+                <strong className="text-gray-800 font-mono capitalize">
+                  {scanResult.inference_mode === "onnx_student" ? "ONNX Student (<9.5ms)" : "Teacher Attention"}
+                </strong>
+              </span>
             </div>
 
-            <button
-              type="button"
-              onClick={onOpenFeedback}
-              className="text-gray-600 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 text-xs font-semibold transition-colors"
-            >
-              <span>Feedback & Retrain</span>
-              <span>↗</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleToggleModeAndRescan}
+                className="text-xs font-bold text-gray-700 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 transition-colors"
+                title="Switch between Teacher and Student models to compare latency and output"
+              >
+                <span>⚡ Compare Mode</span>
+                <span className="text-[10px] text-gray-400 font-normal">
+                  ({inferenceMode === "teacher_attention" ? "Run ONNX Student" : "Run Teacher"})
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={onOpenFeedback}
+                className="text-gray-600 hover:text-black flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-200 text-xs font-semibold transition-colors"
+              >
+                <span>Feedback & Retrain</span>
+                <span>↗</span>
+              </button>
+            </div>
           </div>
 
           {/* Detailed Immediate Reason Banner */}

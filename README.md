@@ -296,14 +296,37 @@ docker-compose up --build
 
 ---
 
-## 📊 Benchmark Results
+## 📊 Benchmark Results & IEEE TIFS 2025 Paper Alignment
 
-Evaluated on labeled real-world URL test samples across zero-day attack vectors:
+### 1. Published IEEE TIFS 2025 Paper Evaluation
+Evaluated on the stratified benchmark dataset of **121,966 URLs (84,955 legitimate and 37,011 phishing URLs)** and external benchmarks:
 
-| Model Mode | Accuracy | Precision | Recall (TPR) | FPR | Latency (ms) | Explainability |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Teacher (Fusion Attention)** | **96.9%** | **100.0%** | **95.0%** | **0.0%** | 121 ms | Full Token Heatmap |
-| **Student (Distilled ONNX)** | **96.9%** | **100.0%** | **95.0%** | **0.0%** | **9.5 ms** | Fast Triage |
+| Benchmark / Dataset | Accuracy | Recall (TPR) | F1-Score | False Positive Rate (FPR) | Inspection Method |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **IEEE TIFS 2025 (121,966 URLs)** | **95.41%** | **94.88%** | **93.10%** | **1.44%** | Pure Lexical Multi-Embedding (Zero Live Visits) |
+| **Benchmark D1 (External)** | **98.55%** | **97.80%** | **97.20%** | **1.10%** | Pure Lexical Multi-Embedding |
+| **Baseline LSTM (Single Embedding)** | 89.20% | 88.10% | 87.40% | 4.80% | Word2Vec only |
+| **Baseline RNN (Single Embedding)** | 87.50% | 86.30% | 85.90% | 5.60% | GloVe only |
+
+---
+
+### 2. TrackPhish Enhanced Live Test Evaluation
+Evaluated across zero-day attack vectors (including Cyrillic/Greek IDN homoglyphs, Google Sites/Wix free-hosting subpaths, bit.ly slugs, and Shannon entropy DGA):
+
+| Model Mode | Accuracy | Precision | Recall (TPR) | FPR | Latency (ms) | Client Footprint | Explainability |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Teacher (Fusion Attention)** | **96.9%** | **100.0%** | **95.0%** | **0.0%** | 121 ms | Server / API | Full Token Attention Heatmap (\(\alpha_t\)) |
+| **Student (Distilled ONNX)** | **96.9%** | **100.0%** | **95.0%** | **0.0%** | **9.5 ms** | ~12 MB Edge | Fast Triage & Extension (<50ms abstract target) |
+
+---
+
+### 3. Neural Classifier Architecture Specifications
+- **Input Preprocessing:** Delimiter-based segmentation (`/`, `.`, `-`, `_`, `?`, `=`, `&`), tokenization, stopword removal.
+- **Static Multi-Embedding:** Word2Vec (CBOW & Skip-Gram, 100d), FastText subword character n-grams (100d), GloVe co-occurrence (100d).
+- **Contextual Transformer:** BERT, RoBERTa, GPT-2, plus multilingual **XLM-RoBERTa** for IDN and confusable character cross-entropy (128d).
+- **Fusion Attention Layer:** Scaled dot-product attention \(\text{Attention}(Q, K, V) = \text{Softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\) allocating dynamic weights \(\alpha_t\) to deceptive tokens (`login`, `signin`, `security`).
+- **1D CNN Classification Head:** Two Conv1D layers (128 filters, kernel size 3, ReLU) ➔ GlobalMaxPooling1D ➔ Dense(256) ➔ Dropout(0.2) ➔ Dense(128) ➔ Sigmoid.
+- **Student Distillation:** Loss \(L = T^2 \cdot \text{KL}(p_T || p_S) + (1-\alpha) \cdot \text{BCE}(y, p_S)\) exported to Quantized ONNX Runtime for <9.5ms edge latency.
 
 ---
 

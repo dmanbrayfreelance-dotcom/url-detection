@@ -147,10 +147,12 @@ export default function RiskBreakdownCard({ scanData }) {
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500">
-            Normalized ASCII:{" "}
-            <span className="font-mono font-bold text-gray-900 select-all break-all">
-              {homoglyph_analysis.normalized_ascii}
+          <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between items-center">
+            <span>Homoglyph Risk Score:</span>
+            <span className="font-mono font-black text-gray-900">
+              {homoglyph_analysis.homoglyph_risk_score !== undefined
+                ? Number(homoglyph_analysis.homoglyph_risk_score).toFixed(3)
+                : "0.000"}
             </span>
           </div>
         </div>
@@ -277,9 +279,13 @@ export default function RiskBreakdownCard({ scanData }) {
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between">
-            <span>TLD: <strong className="text-gray-900 font-mono">.{lexical_analysis.tld || "none"}</strong></span>
-            <span>Subdomains: <strong className="text-gray-900 font-mono">{lexical_analysis.num_subdomains}</strong></span>
+          <div className="mt-4 pt-3 border-t border-gray-100 text-[11px] text-gray-500 flex justify-between items-center">
+            <span>Lexical Risk Score:</span>
+            <span className="font-mono font-black text-gray-900">
+              {lexical_analysis.lexical_risk_score !== undefined
+                ? Number(lexical_analysis.lexical_risk_score).toFixed(3)
+                : "0.000"}
+            </span>
           </div>
         </div>
       </div>
