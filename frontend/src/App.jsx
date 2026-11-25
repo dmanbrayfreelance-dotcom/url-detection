@@ -110,22 +110,13 @@ export default function App() {
             </nav>
           </div>
 
-          {/* User profile widget at bottom of sidebar matching reference */}
-          <div className="pt-6 border-t border-gray-100 flex items-center gap-3 px-2">
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                alt="George"
-                className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100"
-              />
-              <span className="absolute -top-1 -right-1 bg-black text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
-                12
-              </span>
+          {/* System status at bottom of sidebar (no dummy profiles) */}
+          <div className="pt-4 border-t border-gray-100 px-3">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-bold text-gray-800">Inspection Engine Active</span>
             </div>
-            <div className="overflow-hidden">
-              <span className="font-bold text-xs text-gray-900 block truncate">George</span>
-              <span className="text-[11px] text-gray-400 block truncate">hello.designer@gmail.com</span>
-            </div>
+            <span className="text-[10px] text-gray-400 block mt-0.5 font-mono">Zero-Live-Visit Mode</span>
           </div>
         </aside>
 
