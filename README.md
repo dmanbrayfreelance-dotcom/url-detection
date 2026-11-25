@@ -187,6 +187,48 @@ trackphish-enhanced/
 
 ## ⚡ Quickstart Guide
 
+## 🌐 Cloud Deployment (Render & Vercel)
+
+The live production deployment is configured across Render (FastAPI Backend) and Vercel (React Frontend):
+
+- **Backend (Render):** [https://url-detection-4faf.onrender.com](https://url-detection-4faf.onrender.com)
+- **Frontend (Vercel):** [https://url-detection-omega.vercel.app](https://url-detection-omega.vercel.app)
+- **API Docs (Swagger):** [https://url-detection-4faf.onrender.com/docs](https://url-detection-4faf.onrender.com/docs)
+- **Health Check:** [https://url-detection-4faf.onrender.com/health](https://url-detection-4faf.onrender.com/health)
+
+### 1. Render Backend Setup
+In your [Render Dashboard](https://dashboard.render.com/):
+- **Service Type:** Web Service
+- **Environment:** `Python 3`
+- **Build Command:**
+  ```bash
+  pip install -r requirements.txt
+  ```
+- **Start Command:**
+  ```bash
+  uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+  ```
+- **Environment Variables:**
+  - `MONGODB_URI`: `mongodb+srv://rakeyr213_db_user:PZ8WlXLGDL1eYm47@cluster0.jwoohac.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+  - `MONGODB_DB_NAME`: `trackphish_enhanced`
+  - `MONGODB_USERNAME`: `rakeyr213_db_user`
+  - `MONGODB_PASSWORD`: `PZ8WlXLGDL1eYm47`
+  - `CORS_ORIGINS`: `["http://localhost:5173","https://url-detection-omega.vercel.app","https://*.vercel.app"]`
+- **MongoDB Atlas Network Access:**
+  In your [MongoDB Atlas Dashboard](https://cloud.mongodb.com/) -> **Network Access** -> **IP Access List**:
+  - Add `0.0.0.0/0` (Allow Access from Anywhere) so Render dynamic cloud instances can connect to your MongoDB cluster.
+
+### 2. Vercel Frontend Setup
+In your [Vercel Dashboard](https://vercel.com/):
+- **Framework Preset:** `Vite`
+- **Root Directory:** `frontend` (or repository root `.` — both configured via `vercel.json`)
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Environment Variables:**
+  - `VITE_API_BASE_URL`: `https://url-detection-4faf.onrender.com/api/v1`
+
+---
+
 ### 1. Backend Setup & Local Execution
 
 ```bash

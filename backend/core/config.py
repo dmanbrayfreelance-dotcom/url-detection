@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = [
+        "https://url-detection-omega.vercel.app",
+        "https://*.vercel.app",
+        "https://url-detection-4faf.onrender.com",
         "http://localhost:3000",
         "http://localhost:5173",
         "http://127.0.0.1:3000",

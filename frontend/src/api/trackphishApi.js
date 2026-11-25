@@ -1,8 +1,15 @@
 /**
  * TrackPhish Enhanced API Client.
- * Connects to the FastAPI backend endpoints with error handling and fallback simulation.
+ * Pre-configured for Vercel Frontend (https://url-detection-omega.vercel.app)
+ * and Render Backend (https://url-detection-4faf.onrender.com).
  */
-const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+const isBrowser = typeof window !== "undefined";
+const isProduction = import.meta.env?.PROD || (isBrowser && !window.location.hostname.includes("localhost"));
+
+const DEFAULT_REMOTE_API = "https://url-detection-4faf.onrender.com/api/v1";
+const DEFAULT_LOCAL_API = "http://localhost:8000/api/v1";
+
+const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL || (isProduction ? DEFAULT_REMOTE_API : DEFAULT_LOCAL_API);
 
 export async function scanUrl(url, inferenceMode = "teacher_attention") {
   const response = await fetch(`${API_BASE_URL}/scan`, {

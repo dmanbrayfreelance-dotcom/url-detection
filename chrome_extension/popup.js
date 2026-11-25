@@ -1,7 +1,8 @@
 /**
  * TrackPhish Chrome Extension Popup Controller.
  */
-const API_URL = "http://localhost:8000/api/v1/scan";
+const API_URL = "https://url-detection-4faf.onrender.com/api/v1/scan";
+const LOCAL_API_URL = "http://localhost:8000/api/v1/scan";
 
 document.addEventListener("DOMContentLoaded", () => {
   const targetUrlInput = document.getElementById("targetUrl");
