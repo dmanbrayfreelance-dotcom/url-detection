@@ -1,0 +1,25 @@
+services:
+  # Unified Full-Stack Web Service (FastAPI API + React Dashboard)
+  - type: web
+    name: trackphish-enhanced
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && cd frontend && npm install && npm run build && cd .. && python -m ml_pipeline.training.train --epochs 1"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: NODE_VERSION
+        value: 20.0.0
+      - key: MONGODB_USERNAME
+        value: rakeyr213_db_user
+      - key: MONGODB_PASSWORD
+        value: PZ8WlXLGDL1eYm47
+      - key: MONGODB_URI
+        value: mongodb+srv://rakeyr213_db_user:PZ8WlXLGDL1eYm47@cluster0.jwoohac.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: MONGODB_DB_NAME
+        value: trackphish_enhanced
+      - key: USE_IN_MEMORY_FALLBACK
+        value: "true"
+      - key: DEFAULT_INFERENCE_MODE
+        value: teacher_attention
